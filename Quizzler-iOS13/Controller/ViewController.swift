@@ -25,7 +25,25 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUI()
         updateUI()
+    }
+    
+    // Let's make'em buttons round corners!
+    func configureUI() {
+        scoreLabel.text = "Score: 0"
+        choice1.layer.cornerRadius = 20
+        choice2.layer.cornerRadius = 20
+        choice3.layer.cornerRadius = 20
+    }
+    
+    // Also let's create custom function to flash button's background with color
+    func flashButton(_ button: UIButton, withColor color: UIColor) {
+        let originalColor = button.backgroundColor
+        button.backgroundColor = color
+        UIView.animate(withDuration: 0.4) {
+            button.backgroundColor = originalColor
+        }
     }
 
     //New button needs to be linked to this IBAction too.
@@ -36,9 +54,9 @@ class ViewController: UIViewController {
         let userGotItRight = quizBrain.checkAnswer(userAnswer: userAnswer)
         
         if userGotItRight {
-            sender.backgroundColor = UIColor.green
+            flashButton(sender, withColor: UIColor.green)
         } else {
-            sender.backgroundColor = UIColor.red
+            flashButton(sender, withColor: UIColor.red)
         }
         
         quizBrain.nextQuestion()
@@ -56,14 +74,7 @@ class ViewController: UIViewController {
         choice3.setTitle(answerChoices[2], for: .normal)
         
         progressBar.progress = quizBrain.getProgress()
-        scoreLabel.text = "Score: \(quizBrain.getScore())"
-        
-        choice1.backgroundColor = UIColor.clear
-        choice2.backgroundColor = UIColor.clear
-        
-        //Third button needs to be reset too.
-        choice3.backgroundColor = UIColor.clear
-        
+        scoreLabel.text = "Score: \(quizBrain.getScore()
     }
 
 }
